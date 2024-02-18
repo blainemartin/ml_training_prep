@@ -35,13 +35,15 @@ def scrape_episode_scripts(series_list, output_dir):
 
         # Find all links in the table
         links = soup.select('td[valign="top"] a[href]')
+        total_episodes = len(links)
+        print(f"Total episodes to process for {series}: {total_episodes}")
 
-        for link in links:
+        for i, link in enumerate(links, start=1):
             try:
                 episode_url = urljoin(base_url, link['href'])
                 episode_name = link.text
 
-                print(f"Processing episode: {episode_name}")
+                print(f"Processing episode {i} of {total_episodes}: {episode_name}")
 
                 # Load the episode page
                 response = requests.get(episode_url)
