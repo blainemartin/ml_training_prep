@@ -33,6 +33,9 @@ def clean_subtitles(output_dir):
             with open(os.path.join(output_dir, filename.replace('.vtt', '.txt')), 'w') as file:
                 file.writelines(cleaned_lines)
 
+            # Delete the original .vtt file
+            os.remove(os.path.join(output_dir, filename))
+
 def main():
     parser = argparse.ArgumentParser(description='Download and clean YouTube playlist subtitles.')
     parser.add_argument('playlist_url', help='YouTube playlist URL')
