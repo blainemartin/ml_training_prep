@@ -51,4 +51,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Usage
-    scrape_episode_scripts('http://www.chakoteya.net/NextGen/', args.output_dir)
+    scrape_episode_scripts('http://www.chakoteya.net/NextGen/episodes.htm', args.output_dir)
