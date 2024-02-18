@@ -9,14 +9,16 @@ To use this script, you need to pass the base path of the directory containing t
 
 python consolidate_files.py /content/text-generation-webui/training/datasets
 
-###What It Does
+### What It Does
 Scans for text files in the base directory and all its subdirectories (recursively) and copies them to the consolidated directory.
 Concatenates all the text files in the consolidated directory into a single text file, adding the name of each file as a header.
-The resulting consolidated directory can be used by the Training module of the Text Generation Web UI, and the consolidated text file can be used by the Training Pro module of the Text Generation Web UI."""
+The resulting consolidated directory can be used by the Training module of the Text Generation Web UI, and the consolidated text file can be used by the Training Pro module of the Text Generation Web UI.
+"""
 
 import os
 import shutil
 import glob
+import sys
 
 def consolidate_files(base_path):
     # Define the paths
@@ -46,5 +48,5 @@ def consolidate_files(base_path):
                 outfile.write('\n' + os.path.basename(filename).upper() + '\n')
                 shutil.copyfileobj(readfile, outfile)
 
-# Call the function with your base path
-consolidate_files("/content/text-generation-webui/training/datasets/")
+if __name__ == "__main__":
+    consolidate_files(sys.argv[1])
