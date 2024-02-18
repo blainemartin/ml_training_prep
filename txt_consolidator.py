@@ -1,3 +1,19 @@
+"""
+# Text Generation Web UI - File Consolidation Script
+
+This script is designed to consolidate all text files in a given directory into a single text file and a consolidated subdirectory. It is primarily used by the Training module of the Text Generation Web UI.
+
+## How to Use
+
+To use this script, you need to pass the base path of the directory containing the text files as an argument to consolidate_files.py. For example:
+
+python consolidate_files.py /content/text-generation-webui/training/datasets
+
+###What It Does
+Scans for text files in the base directory and all its subdirectories (recursively) and copies them to the consolidated directory.
+Concatenates all the text files in the consolidated directory into a single text file, adding the name of each file as a header.
+The resulting consolidated directory can be used by the Training module of the Text Generation Web UI, and the consolidated text file can be used by the Training Pro module of the Text Generation Web UI."""
+
 import os
 import shutil
 import glob
