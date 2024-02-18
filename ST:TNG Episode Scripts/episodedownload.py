@@ -1,9 +1,14 @@
 import os
 import time
+import argparse
 import requests
 from bs4 import BeautifulSoup
 
 def scrape_episode_scripts(base_url, output_dir):
+    # Check if output directory exists, create it if not
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
     # Send a GET request to the base URL
     response = requests.get(base_url)
     
@@ -39,5 +44,11 @@ def scrape_episode_scripts(base_url, output_dir):
         except Exception as e:
             print(f"An error occurred: {e}")
 
-# Usage
-scrape_episode_scripts('http://www.chakoteya.net/NextGen/', '/path/to/output/dir')
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Scrape Star Trek episode scripts.')
+    parser.add_argument('output_dir', type=str, help='The directory where the scripts will be saved.')
+
+    args = parser.parse_args()
+
+    # Usage
+    scrape_episode_scripts('http://www.chakoteya.net/NextGen/', args.output_dir)
