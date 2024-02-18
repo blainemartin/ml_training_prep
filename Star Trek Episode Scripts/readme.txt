@@ -1,4 +1,3 @@
-```markdown
 # Star Trek Script Downloader
 
 This Python script downloads Star Trek episode scripts from the [Chakoteya](http://www.chakoteya.net/) website.
