@@ -47,9 +47,10 @@ def scrape_episode_scripts(base_url, output_dir):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Scrape Star Trek episode scripts.')
+    parser.add_argument('base_url', type=str, help='The base URL from where the scripts will be scraped.')
     parser.add_argument('output_dir', type=str, help='The directory where the scripts will be saved.')
 
     args = parser.parse_args()
 
     # Usage
-    scrape_episode_scripts('http://www.chakoteya.net/NextGen/episodes.htm', args.output_dir)
+    scrape_episode_scripts(args.base_url, args.output_dir)
