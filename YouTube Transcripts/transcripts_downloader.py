@@ -2,6 +2,7 @@ import os
 import argparse
 import subprocess
 from collections import OrderedDict
+import re
 
 def download_subtitles(playlist_url, output_dir):
     # Download subtitles using yt-dlp
@@ -22,8 +23,11 @@ def clean_subtitles(output_dir):
             with open(os.path.join(output_dir, filename), 'r') as file:
                 lines = file.readlines()
 
+            # Remove timestamps, metadata, and other formatting
+            cleaned_lines = [re.sub('<.*?>', '', line) for line in lines if not line.startswith(('WEBVTT', 'Kind:', 'Language:', '00:', '<c>'))]
+
             # Remove duplicate or overlapping text
-            cleaned_lines = list(OrderedDict.fromkeys(lines))
+            cleaned_lines = list(OrderedDict.fromkeys(cleaned_lines))
 
             # Write cleaned subtitles to txt file
             with open(os.path.join(output_dir, filename.replace('.vtt', '.txt')), 'w') as file:
