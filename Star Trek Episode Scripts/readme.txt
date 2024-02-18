@@ -9,3 +9,11 @@ python script.py 'http://www.chakoteya.net/NextGen/episodes.htm' '/path/to/outpu
 Replace /path/to/output/dir with the path to the directory where you want to save the scripts.
 
 Please note that web scraping should be done responsibly. Make sure to check the website’s robots.txt file and terms of service to ensure that you’re allowed to scrape it.
+
+Recommended URLs:
+TNG - http://www.chakoteya.net/NextGen/episodes.htm
+DS9 - http://www.chakoteya.net/DS9/episodes.htm
+TOS - http://www.chakoteya.net/StarTrek/episodes.htm
+VOY - http://www.chakoteya.net/Voyager/episode_listing.htm
+ENT - http://www.chakoteya.net/Enterprise/episodes.htm
+Movies - http://www.chakoteya.net/movies/index.htm
