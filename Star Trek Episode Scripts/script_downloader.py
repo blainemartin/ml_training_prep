@@ -24,6 +24,10 @@ def scrape_episode_scripts(base_url, output_dir):
             episode_url = urljoin(base_url, link['href'])
             episode_name = link.text
 
+            # Extract series and episode number from the episode name
+            series_episode, _, episode_title = episode_name.partition(' - ')
+            series_episode = series_episode.replace('MOVIES', 'MOV')
+
             # Load the episode page
             response = requests.get(episode_url)
             
@@ -35,7 +39,7 @@ def scrape_episode_scripts(base_url, output_dir):
                 script = soup.select_one('td[align="left"]').text
 
                 # Write the script to a file
-                with open(os.path.join(output_dir, f'{episode_name}.txt'), 'w') as f:
+                with open(os.path.join(output_dir, f'{series_episode} - {episode_title}.txt'), 'w') as f:
                     f.write(script)
             else:
                 print(f"Failed to retrieve page: {episode_url}")
