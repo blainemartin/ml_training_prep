@@ -1,19 +1,47 @@
-This script scrapes http://www.chakoteya.net/NextGen/episodes.htm, then parses all of the script pages listed in the index to individual txt files in a configurable output directory.
+```markdown
+# Star Trek Script Downloader
 
-This script includes a 1-second delay between requests to the server, which should prevent the script from overloading the server. It also includes basic error handling: if an error occurs while processing an episode (for example, if the page fails to load), the script will print an error message and continue with the next episode.
+This Python script downloads Star Trek episode scripts from the [Chakoteya](http://www.chakoteya.net/) website.
 
-Now, you can run the script with the base URL and output directory as arguments. For example:
+## Supported Series
 
-python script.py 'http://www.chakoteya.net/NextGen/episodes.htm' '/path/to/output/directory'
+The script supports the following series and movies:
 
-Replace /path/to/output/dir with the path to the directory where you want to save the scripts.
+- The Original Series (TOS)
+- The Next Generation (TNG)
+- Deep Space Nine (DS9)
+- Voyager (VOY)
+- Enterprise (ENT)
+- Movies (MOV)
 
-Please note that web scraping should be done responsibly. Make sure to check the website’s robots.txt file and terms of service to ensure that you’re allowed to scrape it.
+## Usage
 
-Recommended URLs:
-TNG - http://www.chakoteya.net/NextGen/episodes.htm
-DS9 - http://www.chakoteya.net/DS9/episodes.htm
-TOS - http://www.chakoteya.net/StarTrek/episodes.htm
-VOY - http://www.chakoteya.net/Voyager/episode_listing.htm
-ENT - http://www.chakoteya.net/Enterprise/episodes.htm
-Movies - http://www.chakoteya.net/movies/index.htm
+To use the script, you need to provide a comma-separated list of series abbreviations and the directory where you want to save the scripts. Here's an example:
+
+```bash
+python script_downloader.py 'TOS,TNG,DS9,VOY,ENT,MOV' '/path/to/output/directory'
+```
+
+This will download the scripts for all the specified series and save them in the provided directory.
+
+## Requirements
+
+The script requires the following Python libraries:
+
+- os
+- time
+- argparse
+- requests
+- BeautifulSoup from bs4
+- urljoin from urllib.parse
+
+You can install these libraries using pip:
+
+```bash
+pip install requests beautifulsoup4
+```
+
+## Note
+
+The script sleeps for 1 second between requests to rate limit the requests and avoid getting blocked by the server.
+```
