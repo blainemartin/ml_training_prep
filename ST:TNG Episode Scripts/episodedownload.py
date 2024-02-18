@@ -3,6 +3,7 @@ import time
 import argparse
 import requests
 from bs4 import BeautifulSoup
+from urllib.parse import urljoin
 
 def scrape_episode_scripts(base_url, output_dir):
     # Check if output directory exists, create it if not
@@ -20,7 +21,7 @@ def scrape_episode_scripts(base_url, output_dir):
 
     for link in links:
         try:
-            episode_url = os.path.join(base_url, link['href'])
+            episode_url = urljoin(base_url, link['href'])
             episode_name = link.text
 
             # Load the episode page
