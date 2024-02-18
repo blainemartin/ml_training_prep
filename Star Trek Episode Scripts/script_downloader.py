@@ -21,6 +21,8 @@ def scrape_episode_scripts(series_list, output_dir):
             print(f"Unknown series abbreviation: {series}")
             continue
 
+        print(f"Processing series: {series}")
+
         # Check if output directory exists, create it if not
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
@@ -39,6 +41,8 @@ def scrape_episode_scripts(series_list, output_dir):
                 episode_url = urljoin(base_url, link['href'])
                 episode_name = link.text
 
+                print(f"Processing episode: {episode_name}")
+
                 # Load the episode page
                 response = requests.get(episode_url)
 
@@ -52,6 +56,8 @@ def scrape_episode_scripts(series_list, output_dir):
                     # Write the script to a file
                     with open(os.path.join(output_dir, f'{series.upper()} - {episode_name}.txt'), 'w') as f:
                         f.write(script)
+
+                    print(f"Saved script for episode: {episode_name}")
                 else:
                     print(f"Failed to retrieve page: {episode_url}")
 
