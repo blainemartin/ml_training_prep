@@ -17,9 +17,7 @@ The script supports the following series and movies:
 
 To use the script, you need to provide a comma-separated list of series abbreviations and the directory where you want to save the scripts. Here's an example:
 
-```bash
 python script_downloader.py 'TOS,TNG,DS9,VOY,ENT,MOV' '/path/to/output/directory'
-```
 
 This will download the scripts for all the specified series and save them in the provided directory.
 
@@ -36,11 +34,8 @@ The script requires the following Python libraries:
 
 You can install these libraries using pip:
 
-```bash
 pip install requests beautifulsoup4
-```
 
 ## Note
 
 The script sleeps for 1 second between requests to rate limit the requests and avoid getting blocked by the server.
-```
