@@ -1,35 +1,42 @@
 import os
-import sys
+import argparse
 import subprocess
-import webvtt
 from collections import OrderedDict
 
 def download_subtitles(playlist_url, output_dir):
+    # Download subtitles using yt-dlp
     command = [
         'yt-dlp',
         '--skip-download',
         '--write-auto-sub',
         '--sub-format', 'vtt',
-        '--output', f'{output_dir}/%(title)s.%(ext)s',
+        '--sub-lang', 'en',
+        '-o', os.path.join(output_dir, '%(title)s.%(ext)s'),
         playlist_url
     ]
-    subprocess.run(command, check=True)
+    subprocess.run(command)
 
-def convert_vtt_to_txt(output_dir):
+def clean_subtitles(output_dir):
     for filename in os.listdir(output_dir):
         if filename.endswith(".vtt"):
-            vtt = webvtt.read(os.path.join(output_dir, filename))
-            text = ' '.join([caption.text for caption in vtt])
-            text = ' '.join(OrderedDict((w,w) for w in text.split()).keys())
-            with open(os.path.join(output_dir, filename.replace('.vtt', '.txt')), 'w') as f:
-                f.write(text)
+            with open(os.path.join(output_dir, filename), 'r') as file:
+                lines = file.readlines()
+
+            # Remove duplicate or overlapping text
+            cleaned_lines = list(OrderedDict.fromkeys(lines))
+
+            # Write cleaned subtitles to txt file
+            with open(os.path.join(output_dir, filename.replace('.vtt', '.txt')), 'w') as file:
+                file.writelines(cleaned_lines)
 
 def main():
-    playlist_url = sys.argv[1]
-    output_dir = sys.argv[2]
+    parser = argparse.ArgumentParser(description='Download and clean YouTube playlist subtitles.')
+    parser.add_argument('playlist_url', help='YouTube playlist URL')
+    parser.add_argument('output_dir', help='Output directory for subtitle files')
+    args = parser.parse_args()
 
-    download_subtitles(playlist_url, output_dir)
-    convert_vtt_to_txt(output_dir)
+    download_subtitles(args.playlist_url, args.output_dir)
+    clean_subtitles(args.output_dir)
 
 if __name__ == "__main__":
     main()
