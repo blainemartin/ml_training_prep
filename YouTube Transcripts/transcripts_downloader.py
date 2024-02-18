@@ -35,6 +35,9 @@ def main():
     parser.add_argument('output_dir', help='Output directory for subtitle files')
     args = parser.parse_args()
 
+    # Create output directory if it doesn't exist
+    os.makedirs(args.output_dir, exist_ok=True)
+
     download_subtitles(args.playlist_url, args.output_dir)
     clean_subtitles(args.output_dir)
 
