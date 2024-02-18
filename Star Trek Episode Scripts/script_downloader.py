@@ -50,7 +50,7 @@ def scrape_episode_scripts(series_list, output_dir):
                     script = soup.select_one('td[align="left"]').text
 
                     # Write the script to a file
-                    with open(os.path.join(output_dir, f'{episode_name}.txt'), 'w') as f:
+                    with open(os.path.join(output_dir, f'{series.upper()} - {episode_name}.txt'), 'w') as f:
                         f.write(script)
                 else:
                     print(f"Failed to retrieve page: {episode_url}")
