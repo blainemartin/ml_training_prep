@@ -51,6 +51,21 @@ def download_article(series, wiki, output_dir, counter):
                 article_response = requests.get(article_url)
                 article_soup = BeautifulSoup(article_response.text, 'html.parser')
                 content = article_soup.get_text()
+                
+                # Trim the content based on the wiki
+                if wiki == 'MemAlpha':
+                    start_index = content.find('View history')
+                    end_index = content.find('External links')
+                elif wiki == 'MemBeta':
+                    start_index = content.find('View history')
+                    end_index = content.find('External link')
+                else:  # Wikipedia
+                    start_index = content.find('From Wikipedia, the free encyclopedia')
+                    end_index = content.find('Sources[edit]')
+                
+                if start_index != -1 and end_index != -1:
+                    content = content[start_index:end_index]
+                
                 print(f'Content length: {len(content)}')
                 
                 # Use the article title as the filename
@@ -68,7 +83,7 @@ def download_article(series, wiki, output_dir, counter):
             except Exception as e:
                 print(f'Error downloading article: {e}')
     return counter
-    
+
 def main(series_abbreviations, wikis, output_dir):
     counter = 1
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
