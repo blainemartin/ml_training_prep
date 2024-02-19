@@ -31,13 +31,17 @@ URLS = {
 
 def download_article(series, wiki, output_dir):
     url = URLS[wiki][series]
+    print(f'Downloading URL: {url}')
     response = requests.get(url)
+    print(f'Status code: {response.status_code}')
     soup = BeautifulSoup(response.text, 'html.parser')
     content = soup.get_text()
+    print(f'Content length: {len(content)}')
     filename = os.path.join(output_dir, f'{series} - {wiki} - {soup.title.string}.txt')
     with open(filename, 'w') as f:
         f.write(content)
     print(f'Downloaded article: {soup.title.string}')
+
 
 def main(series_abbreviations, wikis, output_dir):
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
