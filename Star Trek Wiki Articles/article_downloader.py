@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import concurrent.futures
 import argparse
+import glob
 from urllib.parse import urljoin
 
 
@@ -84,12 +85,25 @@ def download_article(series, wiki, output_dir, counter):
                 print(f'Error downloading article: {e}')
     return counter
 
+def cleanup(output_dir, wiki, num_files):
+    # Get a list of all files for the wiki
+    files = sorted(glob.glob(os.path.join(output_dir, f'* - {wiki} - *.txt')))
+    
+    # Delete the first num_files files
+    for file in files[:num_files]:
+        os.remove(file)
+        print(f'Deleted file: {file}')
+
 def main(series_abbreviations, wikis, output_dir):
     counters = {'MemAlpha': 1, 'MemBeta': 1, 'Wikipedia': 1}
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
         for series in series_abbreviations.split(','):
             for wiki in wikis.split(','):
                 counters[wiki] = executor.submit(download_article, series, wiki, output_dir, counters[wiki]).result()
+    
+    # Cleanup the first few files for each wiki
+    cleanup(output_dir, 'MemAlpha', 11)
+    cleanup(output_dir, 'Wikipedia', 15)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Download articles from specified wikis.')
