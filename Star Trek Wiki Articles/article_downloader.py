@@ -3,6 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 import concurrent.futures
 import argparse
+from urllib.parse import urljoin
+
 
 # Define the URLs for each series/wiki combination
 URLS = {
@@ -42,7 +44,7 @@ def download_article(series, wiki, output_dir):
         
         # Only download links to other articles
         if url and url.startswith('/wiki/'):
-            article_url = f'https://{wiki}.fandom.com{url}'
+            article_url = urljoin(base_url, url)
             print(f'Downloading article: {article_url}')
             
             try:
@@ -71,7 +73,7 @@ def download_article(series, wiki, output_dir):
                 print(f'Downloaded article: {title}')
             except Exception as e:
                 print(f'Error downloading article: {e}')
-
+                
 def main(series_abbreviations, wikis, output_dir):
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
         for series in series_abbreviations.split(','):
