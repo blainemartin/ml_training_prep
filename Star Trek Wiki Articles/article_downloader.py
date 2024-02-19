@@ -85,11 +85,11 @@ def download_article(series, wiki, output_dir, counter):
     return counter
 
 def main(series_abbreviations, wikis, output_dir):
-    counter = 1
+    counters = {'MemAlpha': 1, 'MemBeta': 1, 'Wikipedia': 1}
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
         for series in series_abbreviations.split(','):
             for wiki in wikis.split(','):
-                counter = executor.submit(download_article, series, wiki, output_dir, counter).result()
+                counters[wiki] = executor.submit(download_article, series, wiki, output_dir, counters[wiki]).result()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Download articles from specified wikis.')
