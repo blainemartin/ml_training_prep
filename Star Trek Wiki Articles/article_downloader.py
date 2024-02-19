@@ -54,6 +54,14 @@ def download_article(series, wiki, output_dir):
                 # Use the article title as the filename
                 title = article_soup.title.string.replace('/', '_')  # Replace / in titles to avoid file path issues
                 filename = os.path.join(output_dir, f'{series} - {wiki} - {title}.txt')
+                
+                # Check if file exists and append a number to avoid duplicates
+                if os.path.exists(filename):
+                    i = 1
+                    while os.path.exists(f"{filename[:-4]}_{i}.txt"):
+                        i += 1
+                    filename = f"{filename[:-4]}_{i}.txt"
+                
                 print(f'Filename: {filename}')
                 
                 os.makedirs(output_dir, exist_ok=True)
