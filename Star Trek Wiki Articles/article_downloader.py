@@ -85,12 +85,17 @@ def download_article(series, wiki, output_dir, counter):
                 print(f'Error downloading article: {e}')
     return counter
 
-def cleanup(output_dir, wiki, num_files):
+def cleanup(output_dir, wiki, num_files_to_delete_from_start, num_files_to_delete_from_end=0):
     # Get a list of all files for the wiki
     files = sorted(glob.glob(os.path.join(output_dir, f'* - {wiki} - *.txt')))
     
     # Delete the first num_files files
-    for file in files[:num_files]:
+    for file in files[:num_files_to_delete_from_start]:
+        os.remove(file)
+        print(f'Deleted file: {file}')
+    
+    # Delete the last num_files files
+    for file in files[-num_files_to_delete_from_end:]:
         os.remove(file)
         print(f'Deleted file: {file}')
 
@@ -103,7 +108,7 @@ def main(series_abbreviations, wikis, output_dir):
     
     # Cleanup the first few files for each wiki
     cleanup(output_dir, 'MemAlpha', 11)
-    cleanup(output_dir, 'Wikipedia', 15)
+    cleanup(output_dir, 'Wikipedia', 15, 50)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Download articles from specified wikis.')
