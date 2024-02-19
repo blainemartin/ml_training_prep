@@ -38,10 +38,14 @@ def download_article(series, wiki, output_dir):
     content = soup.get_text()
     print(f'Content length: {len(content)}')
     filename = os.path.join(output_dir, f'{series} - {wiki} - {soup.title.string}.txt')
-    with open(filename, 'w') as f:
-        f.write(content)
-    print(f'Downloaded article: {soup.title.string}')
-
+    print(f'Filename: {filename}')
+    try:
+        os.makedirs(output_dir, exist_ok=True)
+        with open(filename, 'w') as f:
+            f.write(content)
+        print(f'Downloaded article: {soup.title.string}')
+    except Exception as e:
+        print(f'Error writing file: {e}')
 
 def main(series_abbreviations, wikis, output_dir):
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
