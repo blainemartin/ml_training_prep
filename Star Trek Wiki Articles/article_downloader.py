@@ -31,7 +31,7 @@ URLS = {
     }
 }
 
-def download_article(series, wiki, output_dir):
+def download_article(series, wiki, output_dir, counter):
     base_url = URLS[wiki][series]
     print(f'Downloading URL: {base_url}')
     response = requests.get(base_url)
@@ -56,14 +56,7 @@ def download_article(series, wiki, output_dir):
                 # Use the article title as the filename
                 full_title = article_soup.title.string.replace('/', '_')  # Replace / in titles to avoid file path issues
                 title = full_title.split('|')[0].strip()  # Extract the article title from the full title
-                filename = os.path.join(output_dir, f'{series} - {wiki} - {title}.txt')
-                
-                # Check if file exists and append a number to avoid duplicates
-                if os.path.exists(filename):
-                    i = 1
-                    while os.path.exists(f"{filename[:-4]}_{i}.txt"):
-                        i += 1
-                    filename = f"{filename[:-4]}_{i}.txt"
+                filename = os.path.join(output_dir, f'{series} - {wiki} - {counter:04d} - {title}.txt')
                 
                 print(f'Filename: {filename}')
                 
@@ -71,14 +64,17 @@ def download_article(series, wiki, output_dir):
                 with open(filename, 'w') as f:
                     f.write(content)
                 print(f'Downloaded article: {title}')
+                counter += 1
             except Exception as e:
                 print(f'Error downloading article: {e}')
-                
+    return counter
+    
 def main(series_abbreviations, wikis, output_dir):
+    counter = 1
     with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
         for series in series_abbreviations.split(','):
             for wiki in wikis.split(','):
-                executor.submit(download_article, series, wiki, output_dir)
+                counter = executor.submit(download_article, series, wiki, output_dir, counter).result()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Download articles from specified wikis.')
