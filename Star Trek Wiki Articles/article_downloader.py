@@ -52,7 +52,8 @@ def download_article(series, wiki, output_dir):
                 print(f'Content length: {len(content)}')
                 
                 # Use the article title as the filename
-                title = article_soup.title.string.replace('/', '_')  # Replace / in titles to avoid file path issues
+                full_title = article_soup.title.string.replace('/', '_')  # Replace / in titles to avoid file path issues
+                title = full_title.split('|')[0].strip()  # Extract the article title from the full title
                 filename = os.path.join(output_dir, f'{series} - {wiki} - {title}.txt')
                 
                 # Check if file exists and append a number to avoid duplicates
