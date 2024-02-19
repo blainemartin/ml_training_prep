@@ -6,7 +6,6 @@ import argparse
 import glob
 from urllib.parse import urljoin
 
-
 # Define the URLs for each series/wiki combination
 URLS = {
     'MemAlpha': {
