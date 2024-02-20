@@ -43,4 +43,4 @@ def scrape_episode_scripts(series_list, output_dir):
                 episode_url = urljoin(base_url, link['href'])
                 episode_name = link.text
 
-                print(f"Processing episode {i} of {total_episodes}:
+                print(f"Processing episode {i} of {total_episodes}")
